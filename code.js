@@ -1,33 +1,53 @@
+// mergesort(array)
+//
+// For all subarray sizes smaller than the total array:
+//   For all subarrays:
+//      Declare middle index
+//      Declare end index
+//      Merge lower and upper half
 function mergesort(array) 
 {
-    let size = 2; // -> size of subarrays : we don't need to sort the size 1 subarrays
-    let len = Math.floor(array.length / 2) * 2;
-    if (array.length < 2) // -> An array needs at least two elements to sort it
-        return array;
-
-    while (size <= len) // -> while our subarrays are not larger than the whole array
-    {
-        //Sort lower half, sort upper half, next subarray
-        let temp = 0;
-        while (temp < len)
-        {
-            sort(array, temp, temp + size - 1);
-            sort(array, temp + size, Math.min(temp + 2*size, arr.length));
-            temp += size;
+    let len = array.length;
+    for (let size = 1; size < len; size *= 2)
+        for (let start = 0; start < len - 1; start += 2 * size) {
+            let mid = Math.min(start + size - 1, len - 1);
+            let end = Math.min(start + 2 * size - 1, len - 1);
+            merge(array, start, mid, end);
         }
-
-        size *= 2;
-    }
+    return array;
 }
 
-//Sorts from back end
-function sort(arr, low, high)
-{
-    for (let i = low + 1; i < high; i++)
-        for (let j = i; j > low; j--)
-            if (arr[j] <= arr[j - 1]) {
-                let temp = arr[j];
-                arr[j] = arr[j - 1];
-                arr[j - 1] = temp;
+
+// merge(arr, start, mid, end)
+//
+// Declare pointer for start of upper half
+// While there are still elements in either array:
+//    if (lower array element > upper array element)
+//      save upper array element
+//      push all elements between these two indices down by one
+//      replace lower array element with saved value
+//      update indices
+function merge(arr, start, mid, end) {
+
+    // Start is the current element of the 1st subarray, start2 is the current element of the 2nd
+    let start2 = mid + 1;
+    while (start <= mid && start2 <= end) 
+    {
+        if (arr[start] > arr[start2]) {
+            let value = arr[start2];
+            let index = start2;
+
+            // Shift all elements down
+            while (index != start) {
+                arr[index] = arr[index - 1];
+                index--;
             }
+            arr[start] = value;
+
+            // Update indices
+            mid++;
+            start2++;
+        }
+        start++;
+    }
 }

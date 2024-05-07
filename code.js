@@ -1,3 +1,9 @@
+// As per the announcement added to Canvas, credit for this algorithm goes to ChatGPT
+//    -I got so lost trying to implement this in place, so I had ChatGPT give me
+//     a pseudocode algorithm for merge
+//    -It also helped with debugging
+
+
 // mergesort(array)
 //
 // For all subarray sizes smaller than the total array:
